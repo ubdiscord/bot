@@ -20,7 +20,6 @@ desc= os.getenv("DESCRIPTION")
 
 Forbidden= discord.Embed(title="Permission Denied", description="1) Please check whether you have permission to perform this action or not. \n2) Please check whether my role has permission to perform this action in this channel or not. \n3) Please check my role position.", color=0x00ff00)
 client = commands.Bot(description=desc,command_prefix=prefix, pm_help = True)
-client.remove_command('help')
 
 @client.event
 async def on_ready():
@@ -97,7 +96,6 @@ async def on_message(message):
     await client.process_commands(message)
     if message.content.startswith('m=help'):
         await client.send_message(message.channel, 'Check your DMs 📫')
-        await client.send_message(message.author, f'```Commands list:```\n1)``{prefix}meme`` : For memes\n2)``{prefix}say <anything>`` : To make bot say anything(admin permission required\n3)``{prefix}setupwelcomer`` : To setup welcomer(admin permission required')
         await client.send_message(message.author, 'You can also join our support server: https://discord.gg/wdGurTV')
 
             
