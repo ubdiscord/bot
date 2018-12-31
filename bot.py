@@ -19,7 +19,7 @@ prefix = os.getenv("PREFIX")
 desc= os.getenv("DESCRIPTION")
 
 Forbidden= discord.Embed(title="Permission Denied", description="1) Please check whether you have permission to perform this action or not. \n2) Please check whether my role has permission to perform this action in this channel or not. \n3) Please check my role position.", color=0x00ff00)
-client = commands.Bot(description=desc,command_prefix=commands.when_mentioned_or(prefix), pm_help = True)
+client = commands.Bot(description=desc,command_prefix=prefix, pm_help = True)
 
 @client.event
 async def on_ready():
