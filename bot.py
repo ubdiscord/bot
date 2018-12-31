@@ -80,4 +80,4 @@ async def meme(ctx):
             embed.timestamp = datetime.datetime.utcnow()
             await client.say(embed=embed)
     
-client.run(os.getenv('Token'))
+client.run(os.getenv('TOKEN'))
