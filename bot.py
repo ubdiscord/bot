@@ -70,6 +70,14 @@ async def setupwelcomer(ctx):
       await client.create_channel(server, '🎉welcome🎉',everyone)
 
 @client.command(pass_context = True)
+@commands.has_permissions(administrator=True)
+async def say(ctx,*,message:str=None):
+    if message is None:
+        await client.say(f'Use this command like: ``{PREFIX}say``')
+    else:
+        await client.say(message)
+        
+@client.command(pass_context = True)
 async def meme(ctx):
     colour = '0x' + '008000'
     async with aiohttp.ClientSession() as session:
