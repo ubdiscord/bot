@@ -30,6 +30,12 @@ async def on_ready():
     print('Created by Utkarsh')
 
 @client.event
+async def on_message(message):
+    if message.content.startswith('mv!help'):
+        await client.say('Check your DMs 📫')
+        await client.send_message(message.author, 'You can also join our support server: https://discord.gg/wdGurTV')
+    
+@client.event
 async def on_member_join(member):
     for channel in member.server.channels:
         if member.bot:
@@ -74,7 +80,7 @@ async def setupwelcomer(ctx):
 async def say(ctx,*,message:str=None):
     await client.delete_message(ctx.message)
     if message is None:
-        await client.say(f'Use this command like: ``{prefix}say``')
+        await client.say(f'Use this command like: ``{prefix}say <anything>``')
     else:
         await client.say(message)
         
