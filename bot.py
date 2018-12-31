@@ -31,7 +31,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.content.startswith('mv!help'):
+    if message.content.startswith('m=help'):
         await client.say('Check your DMs 📫')
         await client.send_message(message.author, 'You can also join our support server: https://discord.gg/wdGurTV')
     
