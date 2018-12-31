@@ -94,6 +94,7 @@ async def meme(ctx):
 
 @client.event
 async def on_message(message):
+    await client.process_commands(message)
     if message.content.startswith('m=help'):
         await client.send_message(message.channel, 'Check your DMs 📫')
         await client.send_message(message.author, f'```Commands list:```\n1)``{prefix}meme`` : For memes\n2)``{prefix}say <anything>`` : To make bot say anything(admin permission required\n3)``{prefix}setupwelcomer`` : To setup welcomer(admin permission required')
