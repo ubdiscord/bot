@@ -72,8 +72,9 @@ async def setupwelcomer(ctx):
 @client.command(pass_context = True)
 @commands.has_permissions(administrator=True)
 async def say(ctx,*,message:str=None):
+    await client.delete_message(ctx.message)
     if message is None:
-        await client.say(f'Use this command like: ``{PREFIX}say``')
+        await client.say(f'Use this command like: ``{prefix}say``')
     else:
         await client.say(message)
         
