@@ -19,7 +19,6 @@ prefix = os.getenv("PREFIX")
 
 Forbidden= discord.Embed(title="Permission Denied", description="1) Please check whether you have permission to perform this action or not. \n2) Please check whether my role has permission to perform this action in this channel or not. \n3) Please check my role position.", color=0x00ff00)
 client = commands.Bot(command_prefix=commands.when_mentioned_or(prefix), pm_help = True)
-client.remove_command('help')
 
 @client.event
 async def on_ready():
@@ -28,5 +27,57 @@ async def on_ready():
     print('--------')
     print('Started Our BOT')
     print('Created by Utkarsh')
+
+@client.event
+async def on_member_join(member):
+    for channel in member.server.channels:
+        if member.bot:
+            return
+        if channel.name == '🎉welcome🎉':
+            r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+            embed = discord.Embed(title=f'Welcome {member.name} to {member.server.name}', description='Do not forget to check rules and never try to break any one of them', color = discord.Color((r << 16) + (g << 8) + b))
+            embed.add_field(name='__Thanks for joining__', value='**Hope you will be active here.**', inline=True)
+            embed.set_thumbnail(url='https://media.giphy.com/media/OkJat1YNdoD3W/giphy.gif') 
+            embed.set_image(url = member.avatar_url)
+            embed.add_field(name='__Join position__', value='{}'.format(str(member.server.member_count)), inline=True)
+            embed.add_field(name='Time of joining', value=member.joined_at)
+            await client.send_message(channel, embed=embed) 
+            role = discord.utils.get(member.server.roles, name='Members')
+            await asyncio.sleep(60)
+            await client.add_roles(member, role)
+
+@client.event
+async def on_member_remove(member):
+    for channel in member.server.channels:
+        if channel.name == '🎉welcome🎉':
+            r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
+            embed = discord.Embed(title=f'{member.name} just left {member.server.name}', description='Bye bye 👋! We will miss you 😢', color = discord.Color((r << 16) + (g << 8) + b))
+            embed.add_field(name='__User left__', value='**Hope you will be back soon 😕.**', inline=True)
+            embed.add_field(name='Your join position was', value=member.joined_at)
+            embed.set_thumbnail(url=member.avatar_url)
+            await client.send_message(channel, embed=embed)
+    
+@client.command(pass_context = True)
+@commands.has_permissions(administrator=True)
+async def setupwelcomer(ctx):
+    if ctx.message.author.bot:
+      return
+    else:
+      server = ctx.message.server
+      everyone_perms = discord.PermissionOverwrite(send_messages=False, read_messages=True)
+      everyone = discord.ChannelPermissions(target=server.default_role, overwrite=everyone_perms)
+      await client.create_channel(server, '🎉welcome🎉',everyone)
+
+@client.command(pass_context = True)
+async def meme(ctx):
+    colour = '0x' + '008000'
+    async with aiohttp.ClientSession() as session:
+        async with session.get("https://api.reddit.com/r/me_irl/random") as r:
+            data = await r.json()
+            embed = discord.Embed(title='Random Memes', description='from reddit', color=discord.Color(int(colour, base=16)))
+            embed.set_image(url=data[0]["data"]["children"][0]["data"]["url"])
+            embed.set_footer(text=f'Requested by: {ctx.message.author.display_name}', icon_url=f'{ctx.message.author.avatar_url}')
+            embed.timestamp = datetime.datetime.utcnow()
+            await client.say(embed=embed)
     
 client.run(os.getenv('Token'))
