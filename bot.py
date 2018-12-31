@@ -29,12 +29,7 @@ async def on_ready():
     print('Started Our BOT')
     print('Created by Utkarsh')
 
-@client.event
-async def on_message(message):
-    if message.content.startswith('m=help'):
-        await client.send_message(message.channel, 'Check your DMs 📫')
-        await client.send_message(message.author, 'You can also join our support server: https://discord.gg/wdGurTV')
-    
+   
 @client.event
 async def on_member_join(member):
     for channel in member.server.channels:
@@ -95,5 +90,12 @@ async def meme(ctx):
             embed.set_footer(text=f'Requested by: {ctx.message.author.display_name}', icon_url=f'{ctx.message.author.avatar_url}')
             embed.timestamp = datetime.datetime.utcnow()
             await client.say(embed=embed)
-    
+
+@client.event
+async def on_message(message):
+    if message.content.startswith('m=help'):
+        await client.send_message(message.channel, 'Check your DMs 📫')
+        await client.send_message(message.author, 'You can also join our support server: https://discord.gg/wdGurTV')
+
+            
 client.run(os.getenv('TOKEN'))
